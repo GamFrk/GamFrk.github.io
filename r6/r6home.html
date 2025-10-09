@@ -1,1 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>My Website</title>
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #181a1b;
+            color: #e0e0e0;
+            height: 100vh;
+            box-sizing: border-box;
+        }
+
+        header {
+            background: #23272a;
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        main {
+            padding: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            background: #23272a;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+            box-sizing: border-box;
+            min-height: 300px;
+        }
+
+        footer {
+            background: #23272a;
+            color: #bbb;
+            text-align: center;
+            padding: 1rem;
+            position: absolute;
+            width: 100%;
+            bottom: 0;
+            left: 0;
+        }
+
+            {
+            color: #4fd1c5;
+        }
+
+        iframe {
+            width: 100%;
+            height: 300px;
+            border: none;
+            margin-top: 2rem;
+            border-radius: 8px;
+            background: #181a1b;
+        }
+
+        nav {
+            background: #23272a;
+            text-align: center;
+            padding: 0.5rem 0;
+        }
+
+        .tab-container {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .tab-container button {
+            background: #181a1b;
+            color: #e0e0e0;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        /* Added border for all tables */
+        table {
+            border: 1px solid #444 !important;
+        }
+
+        /* Add vertical divider between table columns */
+        table th,
+        table td {
+            border-right: 1px solid #444;
+        }
+
+        /* Remove right border from last column */
+        table th:last-child,
+        table td:last-child {
+            border-right: none;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>R6 Ranked Map & OP Counts</h1>
+    </header>
+    <nav>
+        <div class="tab-container">
+            <button onclick="window.location.href='r6home.html'">Home</button>
+            <button onclick="window.location.href='maps.html'">Maps</button>
+            <button onclick="window.location.href='operators.html'">Operators</button>
+        </div>
+    </nav>
+</body>
