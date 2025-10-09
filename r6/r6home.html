@@ -1,118 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1">
+		<title>Dark Theme Website</title>
+		<style>
+			body {
+				margin: 0;
+				font-family: Arial, sans-serif;
+				background-color: #121212;
+				color: #e0e0e0
+			}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>My Website</title>
-    <style>
-        html,
-        body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
+			header {
+				background-color: #1f1f1f;
+				padding: 20px;
+				text-align: center;
+				border-bottom: 1px solid #333
+			}
 
-        body {
-            font-family: Arial, sans-serif;
-            background: #181a1b;
-            color: #e0e0e0;
-            height: 100vh;
-            box-sizing: border-box;
-        }
+			header h1 {
+				margin: 0;
+				color: #fff
+			}
 
-        header {
-            background: #23272a;
-            color: #fff;
-            padding: 1rem;
-            text-align: center;
-        }
+			nav {
+				margin-top: 10px;
+			}
 
-        main {
-            padding: 2rem;
-            max-width: 800px;
-            margin: 0 auto;
-            background: #23272a;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-            box-sizing: border-box;
-            min-height: 300px;
-        }
+			.nav-btn {
+				display: inline-block;
+				background-color: #4da6ff;
+				/* Blue accent */
+				color: #121212;
+				padding: 10px 20px;
+				margin: 0 10px;
+				border-radius: 5px;
+				text-decoration: none;
+				font-weight: bold;
+				transition: background-color 0.3s ease;
+			}
 
-        footer {
-            background: #23272a;
-            color: #bbb;
-            text-align: center;
-            padding: 1rem;
-            position: absolute;
-            width: 100%;
-            bottom: 0;
-            left: 0;
-        }
+			.nav-btn:hover {
+				background-color: #ff9800;
+				/* Orange hover */
+				color: #121212;
+			}
 
-            {
-            color: #4fd1c5;
-        }
+			main {
+				padding: 40px;
+				text-align: center
+			}
 
-        iframe {
-            width: 100%;
-            height: 300px;
-            border: none;
-            margin-top: 2rem;
-            border-radius: 8px;
-            background: #181a1b;
-        }
-
-        nav {
-            background: #23272a;
-            text-align: center;
-            padding: 0.5rem 0;
-        }
-
-        .tab-container {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-        }
-
-        .tab-container button {
-            background: #181a1b;
-            color: #e0e0e0;
-            border: none;
-            padding: 0.75rem 2rem;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-
-        /* Added border for all tables */
-        table {
-            border: 1px solid #444 !important;
-        }
-
-        /* Add vertical divider between table columns */
-        table th,
-        table td {
-            border-right: 1px solid #444;
-        }
-
-        /* Remove right border from last column */
-        table th:last-child,
-        table td:last-child {
-            border-right: none;
-        }
-    </style>
-</head>
-
-<body>
-    <header>
-        <h1>R6 Ranked Map & OP Counts</h1>
-    </header>
-    <nav>
-        <div class="tab-container">
-            <button onclick="href='r6home.html'" type="button">Home</button>
-            <button onclick="href='maps.html'" type="button">Maps</button>
-            <button onclick="href='operators.html'" type="button">Operators</button>
-        </div>
-    </nav>
-</body>
+			footer {
+				background-color: #1f1f1f;
+				text-align: center;
+				padding: 15px;
+				border-top: 1px solid #333;
+				font-size: 14px
+			}
+		</style>
+	</head>
+	<body>
+		<header>
+			<h1>My Dark Theme Website</h1>
+			<nav>
+				<a href="https://gamfrk.github.io/r6/r6home.html" class="nav-btn">Home</a>
+				<a href="https://gamfrk.github.io/r6/maps.html" class="nav-btn">Maps</a>
+				<a href="https://gamfrk.github.io/r6/operators.html" class="nav-btn">Operators</a>
+			</nav>
+		</header>
+		<footer>
+			<p>&copy; 2025 My Website</p>
+		</footer>
+	</body>
+</html>
