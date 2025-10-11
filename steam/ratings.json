@@ -1,6 +1,18 @@
 [
   {
-    "appId": "420",
+    "appId": 420,
     "rating": 2
+  },
+  {
+    "appId": 440,
+    "rating": 8
+  },
+  {
+    "appId": 400,
+    "rating": 4
+  },
+  {
+    "appId": 480,
+    "rating": 10
   }
 ]
