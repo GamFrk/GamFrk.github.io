@@ -1,1 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Steam Game List</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #121212;
+      color: #e0e0e0;
+      padding: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 15px;
+    }
+    th, td {
+      border: 1px solid #333;
+      padding: 10px;
+      text-align: center;
+    }
+    th {
+      background: #2a2a2a;
+      color: #ff9800;
+    }
+    tr:nth-child(even) td {
+      background: #1f1f1f;
+    }
+    h1 {
+        text-align: center;
+    }
+    img {
+      max-height: 70px;
+    }
+    .controls {
+      display: none;
+      gap: 10px;
+      margin-top: 15px;
+      align-items: flex-start;
+    }
+    .controls input, .controls select {
+      padding: 8px;
+      border: none;
+      border-radius: 4px;
+      background: #2a2a2a;
+      color: #e0e0e0;
+    }
+    button {
+      padding: 8px 15px;
+      border: none;
+      border-radius: 5px;
+      background: #4da6ff;
+      color: #121212;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #ff9800;
+    }
+    .delete-btn {
+      background: #e74c3c;
+      color: #fff;
+    }
+    .delete-btn:hover {
+      background: #c0392b;
+    }
+    .stars {
+      font-size: 22px;
+      color: #555;
+      display: inline-block;
+      margin-right: 8px;
+    }
+    .stars .full {
+      color: gold;
+    }
+    .rating-label {
+      font-size: 16px;
+      color: #ccc;
+    }
+    #exportBtn {
+      display: none;
+      margin-top: 20px;
+    }
+    #jsonOutput {
+      display: none;
+      width: 100%;
+      height: 200px;
+      margin-top: 15px;
+      background: #1f1f1f;
+      color: #e0e0e0;
+      border: 1px solid #333;
+      padding: 10px;
+      font-family: monospace;
+    }
+    #progressBarContainer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: #333;
+      z-index: 2000;
+    }
+    #progressBar {
+      width: 0%;
+      height: 100%;
+      background: #4da6ff;
+      transition: width .3s ease;
+    }
+  </style>
+</head>
+<body>
 
+  <h1 style="text-align:center;">Steam Game List</h1>
+
+  <table id="myTable">
+    <thead>
+      <tr>
+        <th>Game</th>
+        <th>Rating</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <div class="controls" id="controls">
+    <input type="text" id="colA" placeholder="Enter Steam AppID">
+    <select id="rating">
+      <option value="">Select Rating</option>
+      <option value="1">1</option><option value="2">2</option>
+      <option value="3">3</option><option value="4">4</option>
+      <option value="5">5</option><option value="6">6</option>
+      <option value="7">7</option><option value="8">8</option>
+      <option value="9">9</option><option value="10">10</option>
+    </select>
+    <button onclick="addRow()">Add Row</button>
+    <button class="delete-btn" onclick="deleteRow()">Delete Last Row</button>
+  </div>
+
+  <button id="exportBtn" onclick="exportToJSON()">Export to JSON</button>
+  <textarea id="jsonOutput" readonly placeholder="JSON output will appear here..."></textarea>
+
+  <script>
+    // --- LOGIN ---
+    const password = prompt("Enter password to unlock editing:");
+    if (password === "KrfMag") {
+      document.getElementById("controls").style.display = "flex";
+      document.getElementById("exportBtn").style.display = "inline-block";
+    }
+
+    // --- HELPER: create a row ---
+    function createRow(appId, rating) {
+      const tbody = document.getElementById("myTable").tBodies[0];
+      const newRow = tbody.insertRow();
+
+      // Game logo
+      const cell1 = newRow.insertCell(0);
+      const img = document.createElement("img");
+      img.src = `https://cdn.cloudflare.steamstatic.com/steam/apps/${appId}/capsule_184x69.jpg`;
+      img.alt = "Game Logo";
+      img.dataset.appid = appId;
+      cell1.appendChild(img);
+
+      // Rating stars
+      const cell2 = newRow.insertCell(1);
+      cell2.innerHTML = renderStars(rating) + `<span class="rating-label">${rating}/10</span>`;
+      cell2.dataset.rating = rating;
+    }
+
+    // --- ADD ROW ---
+    function addRow() {
+      const appId = document.getElementById("colA").value.trim();
+      const rating = parseInt(document.getElementById("rating").value);
+      if (!appId || isNaN(rating)) {
+        alert("Please enter a Steam AppID and select a rating.");
+        return;
+      }
+      createRow(appId, rating);
+      document.getElementById("colA").value = "";
+      document.getElementById("rating").value = "";
+    }
+
+    // --- DELETE ROW ---
+    function deleteRow() {
+      const tbody = document.getElementById("myTable").tBodies[0];
+      if (tbody.rows.length > 0) {
+        tbody.deleteRow(tbody.rows.length - 1);
+      }
+    }
+
+    // --- RENDER STARS ---
+    function renderStars(rating) {
+      let html = '<div class="stars">';
+      for (let i = 1; i <= 10; i++) {
+        html += (i <= rating) ? '<span class="full">★</span>' : '<span>☆</span>';
+      }
+      html += '</div>';
+      return html;
+    }
+
+    // --- SORT TABLE BY RATING ---
+    function sortTable() {
+      const tbody = document.getElementById("myTable").tBodies[0];
+      const rows = Array.from(tbody.rows);
+      rows.sort((a, b) => {
+        const ratingA = parseInt(a.cells[1].dataset.rating);
+        const ratingB = parseInt(b.cells[1].dataset.rating);
+        return ratingB - ratingA;
+      });
+      rows.forEach(row => tbody.appendChild(row));
+    }
+
+    // --- EXPORT TO JSON ---
+    function exportToJSON() {
+      const tbody = document.getElementById("myTable").tBodies[0];
+      const data = Array.from(tbody.rows).map(row => {
+        const appId = row.cells[0].querySelector("img").dataset.appid;
+        const rating = row.cells[1].dataset.rating;
+        return { appId: parseInt(appId), rating: parseInt(rating) };
+      });
+      const output = document.getElementById("jsonOutput");
+      output.style.display = "block";
+      output.value = JSON.stringify(data, null, 2);
+    }
+
+    // --- LOAD JSON FROM REPO ---
+    window.addEventListener("load", () => {
+      fetch("https://GamFrk.github.io/steam/ratings.json")
+        .then(res => res.json())
+        .then(data => {
+          data.forEach(item => createRow(item.appId, item.rating));
+          sortTable(); // only sort after loading
+        })
+        .catch(err => console.error("Error loading JSON:", err));
+    });
+  </script>
+</body>
+</html>
