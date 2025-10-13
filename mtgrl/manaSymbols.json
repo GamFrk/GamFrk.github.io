@@ -1,0 +1,18 @@
+{
+  "C": { "url": "https://files.mtg.wiki/C.svg", "label": "Colorless" },
+  "G": { "url": "https://files.mtg.wiki/G.svg", "label": "Green" },
+  "R": { "url": "https://files.mtg.wiki/R.svg", "label": "Red" },
+  "B": { "url": "https://files.mtg.wiki/B.svg", "label": "Black" },
+  "U": { "url": "https://files.mtg.wiki/U.svg", "label": "Blue" },
+  "W": { "url": "https://files.mtg.wiki/W.svg", "label": "White" },
+  "S": { "url": "https://files.mtg.wiki/S.svg", "label": "Snow" },
+  "T": { "url": "https://files.mtg.wiki/T.svg", "label": "Tap" },
+  "Q": { "url": "https://files.mtg.wiki/Q.svg", "label": "Untap" },
+  "X": { "url": "https://files.mtg.wiki/X.svg", "label": "X" },
+  "CP": { "url": "https://files.mtg.wiki/CP.svg", "label": "Phyrexian" },
+  "H": { "url": "https://files.mtg.wiki/%C2%BD.svg", "label": "Half (1/2)" },
+  "1": { "url": "https://files.mtg.wiki/1.svg", "label": "1" },
+  "2": { "url": "https://files.mtg.wiki/2.svg", "label": "2" },
+  "3": { "url": "https://files.mtg.wiki/3.svg", "label": "3" },
+  "4": { "url": "https://files.mtg.wiki/4.svg", "label": "4" }
+}
