@@ -10,6 +10,7 @@
   "Q": { "url": "https://files.mtg.wiki/Q.svg", "label": "Untap" },
   "X": { "url": "https://files.mtg.wiki/X.svg", "label": "X" },
   "CP": { "url": "https://files.mtg.wiki/CP.svg", "label": "Phyrexian" },
+  "PW": { "url": "https://files.mtg.wiki/PW.svg", "label": "PW" },
   "H": { "url": "https://files.mtg.wiki/%C2%BD.svg", "label": "Half (1/2)" },
   "1": { "url": "https://files.mtg.wiki/1.svg", "label": "1" },
   "2": { "url": "https://files.mtg.wiki/2.svg", "label": "2" },
