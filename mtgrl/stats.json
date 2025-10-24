@@ -1,18 +1,18 @@
 {
-  "common": {
+  "Common": {
     "rolls": 1,
     "values": [0, 1, 1.5, 2]
   },
-  "uncommon": {
+  "Uncommon": {
     "rolls": 1,
     "values": [3, 3.5]
   },
-  "rare": {
+  "Rare": {
     "rolls": 1,
     "values": [4,5],
     "multipliers": { "5": 2 }
   },
-  "mythic rare": {
+  "Mythic Rare": {
     "rolls": 5,
     "values": [-9999, -13, -11, -7, -6, -5, -4, -3, -2, -1, "-X", "+X", 6, 7, 8, 9, 10, 20, 9999],
     "multipliers": {
