@@ -1,6 +1,18 @@
 {
-  "Common": { "weight": 17272, "percent": "50%" },
-  "Uncommon": { "weight": 12090.4, "percent": "35%" },
-  "Rare": { "weight": 4836.16, "percent": "14%" },
-  "Mythic Rare": { "weight": 345.44, "percent": "1%" }
+    "Common": {
+        "weight": 17272,
+        "percent": "50%"
+    },
+    "Uncommon": {
+        "weight": 12090.4,
+        "percent": "35%"
+    },
+    "Rare": {
+        "weight": 4836.16,
+        "percent": "14%"
+    },
+    "Mythic Rare": {
+        "weight": 345.44,
+        "percent": "1%"
+    }
 }
