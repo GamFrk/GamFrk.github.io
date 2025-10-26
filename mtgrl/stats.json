@@ -1,14 +1,14 @@
 {
   "Common": {
-    "rolls": 5,
+    "rolls": 1,
     "values": [0, 1, 1.5, 2]
   },
   "Uncommon": {
-    "rolls": 5,
+    "rolls": 1,
     "values": [3, 3.5]
   },
   "Rare": {
-    "rolls": 5,
+    "rolls": 2,
     "values": [4,5],
     "multipliers": { "5": 2 }
   },
