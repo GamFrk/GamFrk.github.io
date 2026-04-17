@@ -1,77 +1,195 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width,initial-scale=1">
-		<title>Dark Theme Website</title>
-		<style>
-			body {
-				margin: 0;
-				font-family: Arial, sans-serif;
-				background-color: #121212;
-				color: #e0e0e0
-			}
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>R6 Operators</title>
 
-			header {
-				background-color: #1f1f1f;
-				padding: 20px;
-				text-align: center;
-				border-bottom: 1px solid #333
-			}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-			header h1 {
-				margin: 0;
-				color: #fff
-			}
+<style>
+	body {
+		margin: 0;
+		font-family: Arial, sans-serif;
+		background: #0f1115;
+		color: #e6e6e6;
+	}
 
-			nav {
-				margin-top: 10px;
-			}
+	header {
+		background: #1f1f1f;
+		padding: 20px;
+		text-align: center;
+		border-bottom: 1px solid #333;
+	}
 
-			.nav-btn {
-				display: inline-block;
-				background-color: #4da6ff;
-				/* Blue accent */
-				color: #121212;
-				padding: 10px 20px;
-				margin: 0 10px;
-				border-radius: 5px;
-				text-decoration: none;
-				font-weight: bold;
-				transition: background-color 0.3s ease;
-			}
+	header h1 { margin: 0; color: #fff; }
 
-			.nav-btn:hover {
-				background-color: #ff9800;
-				/* Orange hover */
-				color: #121212;
-			}
+	nav { margin-top: 10px; }
 
-			main {
-				padding: 40px;
-				text-align: center
-			}
+	.nav-btn {
+		display: inline-block;
+		background: #4da6ff;
+		color: #121212;
+		padding: 10px 20px;
+		margin: 10px;
+		border-radius: 5px;
+		text-decoration: none;
+		font-weight: bold;
+	}
 
-			footer {
-				background-color: #1f1f1f;
-				text-align: center;
-				padding: 15px;
-				border-top: 1px solid #333;
-				font-size: 14px
-			}
-		</style>
-	</head>
-	<body>
-		<header>
-			<h1>R6 Maps & Ops</h1>
-			<nav>
-				<a href="https://gamfrk.github.io/r6/r6home.html" class="nav-btn">Home</a>
-				<a href="https://gamfrk.github.io/r6/maps.html" class="nav-btn">Maps</a>
-				<a href="https://gamfrk.github.io/r6/operators.html" class="nav-btn">Operators</a>
-			</nav>
-		</header>
-		<footer>
-			<p>&copy; 2025 My Website</p>
-		</footer>
-	</body>
+	.section {
+		max-width: 1200px;
+		margin: 40px auto;
+		padding: 0 20px;
+	}
+
+	.content {
+		display: flex;
+		gap: 20px;
+		flex-wrap: wrap;
+	}
+
+	.table-container { flex: 0 0 350px; }
+	.chart-container { flex: 1 1 500px; min-height: 450px; }
+
+	table {
+		width: 100%;
+		border-collapse: collapse;
+		background: #1f2630;
+	}
+
+	th, td {
+		padding: 10px;
+		border: 1px solid #333;
+	}
+
+	th {
+		background: #2a2f3a;
+		color: #ff9800;
+	}
+
+	.total {
+		font-weight: bold;
+		background: #111827;
+	}
+
+	hr {
+		border: none;
+		height: 1px;
+		background: rgba(255,255,255,0.08);
+		margin: 40px 0;
+	}
+</style>
+</head>
+
+<body>
+
+<header>
+	<h1>R6 Maps & Ops</h1>
+	<nav>
+		<a class="nav-btn" href="r6home.html">Home</a>
+		<a class="nav-btn" href="maps.html">Maps</a>
+		<a class="nav-btn" href="operators.html">Operators</a>
+	</nav>
+</header>
+
+<div id="app">Loading...</div>
+
+<script>
+
+const URL = "https://raw.githubusercontent.com/GamFrk/GamFrk.github.io/refs/heads/master/r6/operators.json";
+const app = document.getElementById("app");
+
+/* helpers */
+const sortOps = (ops) =>
+	[...ops].sort((a, b) => (b.Count ?? 0) - (a.Count ?? 0));
+
+const totalOps = (ops) =>
+	ops.reduce((sum, o) => sum + (o.Count ?? 0), 0);
+
+const table = (ops, total) => `
+<table>
+	<tr><th>Operator</th><th>Count</th></tr>
+	${ops.map(o => `
+		<tr>
+			<td>${o.Operator}</td>
+			<td>${o.Count ?? 0}</td>
+		</tr>
+	`).join("")}
+	<tr class="total">
+		<td>Total</td>
+		<td>${total}</td>
+	</tr>
+</table>
+`;
+
+const chartOptions = {
+	indexAxis: "y",
+	responsive: true,
+	maintainAspectRatio: false,
+	events: [],
+	plugins: {
+		legend: { display: false },
+		tooltip: { enabled: false }
+	},
+	scales: {
+		x: { ticks: { color: "#e6e6e6" }, grid: { color: "rgba(255,255,255,0.1)" } },
+		y: { ticks: { color: "#e6e6e6" }, grid: { color: "rgba(255,255,255,0.1)" } }
+	}
+};
+
+/* main */
+fetch(URL)
+	.then(res => res.json())
+	.then(data => {
+
+		app.innerHTML = "";
+
+		Object.entries(data).forEach(([season, ops], i) => {
+
+			const sorted = sortOps(ops || []);
+			const total = totalOps(sorted);
+
+			const section = document.createElement("div");
+			section.className = "section";
+
+			section.innerHTML = `
+				<h2 style="text-align:center; color:#4da6ff;">${season}</h2>
+
+				<div class="content">
+					<div class="table-container">
+						${table(sorted, total)}
+					</div>
+
+					<div class="chart-container">
+						<canvas id="chart-${i}"></canvas>
+					</div>
+				</div>
+
+				<hr />
+			`;
+
+			app.appendChild(section);
+
+			new Chart(document.getElementById(`chart-${i}`), {
+				type: "bar",
+				data: {
+					labels: sorted.map(o => o.Operator),
+					datasets: [{
+						data: sorted.map(o => o.Count ?? 0),
+						backgroundColor: "#ff9800"
+					}]
+				},
+				options: chartOptions
+			});
+		});
+	})
+	.catch(err => {
+		console.error("LOAD ERROR:", err);
+		app.innerHTML = "<p style='color:red;text-align:center;'>Failed to load operators data.</p>";
+	});
+
+</script>
+
+</body>
 </html>
