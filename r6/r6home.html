@@ -1,82 +1,215 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>R6 Maps & Ops</title>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>R6 Home</title>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #121212;
-      color: #e0e0e0;
-    }
+		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    header {
-      background-color: #1f1f1f;
-      padding: 20px;
-      text-align: center;
-      border-bottom: 1px solid #333;
-    }
+		<style>
+			body {
+				margin: 0;
+				font-family: Arial, sans-serif;
+				background: #0f1115;
+				color: #e6e6e6;
+			}
 
-    header h1 {
-      margin: 0;
-      color: #fff;
-    }
+			header {
+				background: #1f1f1f;
+				padding: 20px;
+				text-align: center;
+				border-bottom: 1px solid #333;
+			}
 
-    nav {
-      margin-top: 10px;
-    }
+			header h1 {
+				margin: 0;
+				color: #fff;
+			}
 
-    .nav-btn {
-      display: inline-block;
-      background-color: #4da6ff; /* Blue accent */
-      color: #121212;
-      padding: 10px 20px;
-      margin: 0 10px;
-      border-radius: 5px;
-      text-decoration: none;
-      font-weight: bold;
-      transition: background-color 0.3s ease;
-    }
+			nav {
+				margin-top: 10px;
+			}
 
-    .nav-btn:hover {
-      background-color: #ff9800; /* Orange hover */
-      color: #121212;
-    }
+			.nav-btn {
+				display: inline-block;
+				background: #4da6ff;
+				color: #121212;
+				padding: 10px 20px;
+				margin: 10px;
+				border-radius: 5px;
+				text-decoration: none;
+				font-weight: bold;
+			}
 
-    main {
-      padding: 40px;
-      text-align: center;
-    }
+			h2 {
+				text-align: center;
+				margin-top: 40px;
+				color: #4da6ff;
+			}
 
-    footer {
-      background-color: #1f1f1f;
-      text-align: center;
-      padding: 15px;
-      border-top: 1px solid #333;
-      font-size: 14px;
-    }
-  </style>
-</head>
+			.section {
+				margin: 40px auto;
+				max-width: 1200px;
+				padding: 0 20px;
+			}
 
-<body>
-  <header>
-    <h1>R6 Maps & Ops</h1>
-    <nav>
-      <a href="https://gamfrk.github.io/r6/r6home.html" class="nav-btn">Home</a>
-      <a href="https://gamfrk.github.io/r6/maps.html" class="nav-btn">Maps</a>
-      <a href="https://gamfrk.github.io/r6/operators.html" class="nav-btn">Operators</a>
-    </nav>
-  </header>
+			.section:not(:last-child)::after {
+				content: "";
+				display: block;
+				height: 1px;
+				background: rgba(255, 255, 255, 0.08);
+				margin-top: 40px;
+			}
 
-  <main>
-    <!-- You can add homepage content here later -->
-  </main>
+			.content {
+				display: flex;
+				gap: 20px;
+				flex-wrap: wrap;
+				justify-content: center;
+				margin-top: 15px;
+			}
 
-  <footer>
-    <p>&copy; 2025 My Website</p>
-  </footer>
-</body>
+			.table-container {
+				flex: 0 0 350px;
+			}
+			.chart-container {
+				flex: 1 1 500px;
+				min-height: 400px;
+			}
+
+			table {
+				width: 100%;
+				border-collapse: collapse;
+				background: #1f2630;
+			}
+
+			th,
+			td {
+				padding: 10px;
+				border: 1px solid #333;
+			}
+
+			th {
+				background: #2a2f3a;
+				color: #ff9800;
+			}
+
+			canvas {
+				width: 100% !important;
+				height: 100% !important;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header>
+			<h1>R6 Maps & Ops</h1>
+			<nav>
+				<a class="nav-btn" href="r6home.html">Home</a>
+				<a class="nav-btn" href="maps.html">Maps</a>
+				<a class="nav-btn" href="operators.html">Operators</a>
+			</nav>
+		</header>
+
+		<div id="app"></div>
+
+		<script>
+			const mapURL = "https://raw.githubusercontent.com/GamFrk/GamFrk.github.io/refs/heads/master/r6/maps.json";
+			const opsURL = "https://raw.githubusercontent.com/GamFrk/GamFrk.github.io/refs/heads/master/r6/operators.json";
+
+			const sortData = (arr) => [...arr].sort((a, b) => (b.Count ?? 0) - (a.Count ?? 0));
+
+			const latestSeason = (data) => Object.keys(data)[0];
+
+			const buildTable = (items, labelKey) => `
+<table>
+	<tr><th>${labelKey}</th><th>Count</th></tr>
+	${items
+		.map(
+			(i) => `
+		<tr>
+			<td>${i[labelKey]}</td>
+			<td>${i.Count ?? 0}</td>
+		</tr>
+	`,
+		)
+		.join("")}
+</table>
+`;
+
+			const chartOptions = {
+				indexAxis: "y",
+				responsive: true,
+				maintainAspectRatio: false,
+				events: [],
+				plugins: {
+					legend: { display: false },
+					tooltip: { enabled: false },
+				},
+				scales: {
+					x: { ticks: { color: "#e6e6e6" } },
+					y: { ticks: { color: "#e6e6e6" } },
+				},
+			};
+
+			function renderSection(title, items, labelKey, chartId) {
+				const sorted = sortData(items);
+
+				const section = document.createElement("div");
+				section.className = "section";
+
+				section.innerHTML = `
+		<h2>${title}</h2>
+
+		<div class="content">
+			<div class="table-container">
+				${buildTable(sorted, labelKey)}
+			</div>
+
+			<div class="chart-container">
+				<canvas id="${chartId}"></canvas>
+			</div>
+		</div>
+	`;
+
+				document.getElementById("app").appendChild(section);
+
+				new Chart(document.getElementById(chartId), {
+					type: "bar",
+					data: {
+						labels: sorted.map((i) => i[labelKey]),
+						datasets: [
+							{
+								data: sorted.map((i) => i.Count ?? 0),
+								backgroundColor: "#ff9800",
+							},
+						],
+					},
+					options: chartOptions,
+				});
+			}
+
+			/* MAIN */
+			fetch(mapURL)
+				.then((r) => r.json())
+				.then((mapData) => {
+					const mapSeason = latestSeason(mapData);
+
+					renderSection("Maps - " + mapSeason, mapData[mapSeason], "Map", "mapChart");
+
+					return fetch(opsURL);
+				})
+				.then((r) => r.json())
+				.then((opsData) => {
+					const opsSeason = latestSeason(opsData);
+
+					renderSection("Operators - " + opsSeason, opsData[opsSeason], "Operator", "opsChart");
+				})
+				.catch((err) => {
+					console.error(err);
+					document.getElementById("app").innerHTML = "<p style='color:red;text-align:center;'>Failed to load data</p>";
+				});
+		</script>
+	</body>
 </html>
