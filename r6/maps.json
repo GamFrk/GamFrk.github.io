@@ -1,4 +1,23 @@
 {
+	"Y11S1": [
+	{ "Map": "Border", "Count": 16 },
+	{ "Map": "Club House", "Count": 14 },
+	{ "Map": "Chalet", "Count": 11 },
+	{ "Map": "Coastline", "Count": 11 },
+	{ "Map": "Villa", "Count": 11 },
+	{ "Map": "Kafe Dostoyevsky", "Count": 9 },
+	{ "Map": "Consulate", "Count": 7 },
+	{ "Map": "Fortress", "Count": 7 },
+	{ "Map": "Nighthaven Labs", "Count": 7 },
+	{ "Map": "Kanal", "Count": 6 },
+	{ "Map": "Skyscraper", "Count": 6 },
+	{ "Map": "Bank", "Count": 5 },
+	{ "Map": "Oregon", "Count": 5 },
+	{ "Map": "Emerald Plains", "Count": 4 },
+	{ "Map": "Outback", "Count": 4 },
+	{ "Map": "Theme Park", "Count": 2 },
+	{ "Map": "Lair", "Count": 0 }
+  ],
     "Y10S4": [
     { "Map": "Coastline", "Count": 3 },
     { "Map": "Outback", "Count": 2 },
